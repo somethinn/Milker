@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: milker
+  datasource:
+    url: jdbc:mysql://localhost:3306/milker?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: 12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update      # Creates/updates tables based on entities
+    show-sql: true          # Logs SQL statements (useful for debugging)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect  # Adjust for your MySQL version
+        format_sql: true
+
+server:
+  port: 8080
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+open:
+  api:
+    title: "PRM392"
+    version: "1.0"
+    description: "API document of project SWD392"
+    server:
+      url: "http://localhost:8080"
+      description: "SpringBoot"
+    group: "PRM"
+    scan-package: "PRM392.demo.controller"
+
+logging:
+  level:
+    org:
+      hibernate: INFO
