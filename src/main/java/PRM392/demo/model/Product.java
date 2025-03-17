@@ -40,7 +40,6 @@ public class Product {
     @Column(name = "statusDescription")
     private String statusDescription;
 
-    @Lob
     @Column(name = "image")
     private String image;
 

@@ -2,9 +2,9 @@ spring:
   application:
     name: milker
   datasource:
-    url: jdbc:postgresql://localhost:5432/Milker
-    username: postgres
-    password: 12345
+    url: jdbc:postgresql://dpg-cvbur0rqf0us73dd8200-a.singapore-postgres.render.com/milkerdb
+    username: milkerdb_user
+    password: FqvCPtZXUGFrof2Dohnxa7pZPyhpqLmV
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:

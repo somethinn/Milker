@@ -38,5 +38,4 @@ public class User {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "RoleID")
     private Role roleID;
-
 }

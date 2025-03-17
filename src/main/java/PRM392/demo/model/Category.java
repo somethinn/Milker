@@ -38,5 +38,4 @@ public class Category {
 
     @Column(name = "UpdateDate")
     private Instant updateDate;
-
 }
