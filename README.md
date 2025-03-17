@@ -1,4 +1,4 @@
-# MilkStore_PRM392_BE
+# Milker
 
 A very simple Backend project with simple auth flow and simple product (milk) order flow :D
 
