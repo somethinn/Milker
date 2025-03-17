@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>PRM392</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>milker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Milker</name>
 	<description>Demo project for Spring Boot</description>
