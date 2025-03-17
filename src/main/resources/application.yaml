@@ -2,18 +2,18 @@ spring:
   application:
     name: milker
   datasource:
-    url: jdbc:mysql://localhost:3306/milker?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: root
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
     password: 12345
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update      # Creates/updates tables based on entities
-    show-sql: true          # Logs SQL statements (useful for debugging)
+      ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect  # Adjust for your MySQL version
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+    show-sql: true
 
 server:
   port: 8080
@@ -26,13 +26,13 @@ springdoc:
 
 open:
   api:
-    title: "PRM392"
+    title: "Milker"
     version: "1.0"
-    description: "API document of project SWD392"
+    description: "API document of project Milker"
     server:
       url: "http://localhost:8080"
       description: "SpringBoot"
-    group: "PRM"
+    group: "Milk"
     scan-package: "PRM392.demo.controller"
 
 logging:
