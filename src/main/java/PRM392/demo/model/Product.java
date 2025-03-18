@@ -1,6 +1,7 @@
 package PRM392.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -13,13 +14,15 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "product")
+@Table(name = "\"Product\"")
 public class Product {
     @Id
-    @Column(name = "ProductID", nullable = false)
+    @Size(max = 255)
+    @Column(name = "\"ProductID\"", nullable = false)
     private String productID;
 
-    @Column(name = "ProductName")
+    @Size(max = 255)
+    @Column(name = "\"ProductName\"")
     private String productName;
 
     @ColumnDefault("0")
@@ -29,24 +32,26 @@ public class Product {
     @Column(name = "price", precision = 10, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "Description")
+    @Size(max = 255)
+    @Column(name = "\"Description\"")
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
-    @JoinColumn(name = "CategoriesID")
+    @JoinColumn(name = "\"CategoriesID\"")
     private Category categoriesID;
 
-    @Column(name = "statusDescription")
+    @Size(max = 255)
+    @Column(name = "\"statusDescription\"")
     private String statusDescription;
 
-    @Column(name = "image")
+    @Column(name = "image", length = Integer.MAX_VALUE)
     private String image;
 
-    @Column(name = "CreateDate")
+    @Column(name = "\"CreateDate\"")
     private Instant createDate;
 
-    @Column(name = "UpdateDate")
+    @Column(name = "\"UpdateDate\"")
     private Instant updateDate;
 
 }

@@ -32,7 +32,7 @@ public class SwaggerConfig {
                         .description(descriptionDocument)
                         .license(new License()
                                 .name("BE")
-                                .url("https://github.com/phucphse181514/SWD392_BE"))
+                                .url("https://github.com/somethinn/Milker"))
                 ).servers(List.of(new Server()
                         .url(serverUrl)
                         .description(serverDescription)));

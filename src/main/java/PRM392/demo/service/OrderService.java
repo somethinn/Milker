@@ -63,7 +63,7 @@ public class OrderService {
             productRepository.save(product);
 
             OrderDetail detail = new OrderDetail();
-            OrderdetailId id = new OrderdetailId();
+            OrderDetailId id = new OrderDetailId();
             id.setProductID(product.getProductID());
             id.setOrderID(order.getOrderID());
             detail.setId(id);
