@@ -103,6 +103,7 @@ public class ProductService {
         dto.setProductName(product.getProductName());
         dto.setQuantity(product.getQuantity());
         dto.setPrice(product.getPrice());
+        dto.setImage(product.getImage());
         dto.setDescription(product.getDescription());
         dto.setStatusDescription(product.getStatusDescription());
         return dto;
