@@ -26,6 +26,7 @@ public class OrderController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderResponse> getOrder(@PathVariable String orderId) {
         try {

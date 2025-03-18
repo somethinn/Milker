@@ -4,7 +4,10 @@ import PRM392.demo.dto.OrderDetailDTO;
 import PRM392.demo.dto.OrderRequest;
 import PRM392.demo.dto.OrderResponse;
 import PRM392.demo.dto.OrderUpdateRequest;
-import PRM392.demo.model.*;
+import PRM392.demo.model.Order;
+import PRM392.demo.model.OrderDetail;
+import PRM392.demo.model.Product;
+import PRM392.demo.model.User;
 import PRM392.demo.repo.OrderDetailRepository;
 import PRM392.demo.repo.OrderRepository;
 import PRM392.demo.repo.ProductRepository;
@@ -100,6 +103,7 @@ public class OrderService {
             return mapToOrderResponse(order, details);
         });
     }
+
     @Transactional
     public OrderResponse updateOrder(String orderId, OrderUpdateRequest updateRequest) {
         Order order = orderRepository.findById(orderId)
