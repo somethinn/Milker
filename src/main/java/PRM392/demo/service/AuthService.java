@@ -26,21 +26,21 @@ public class AuthService {
     private BCryptPasswordEncoder passwordEncoder;
 
     public LoginResponse login(LoginRequest loginRequest) {
-        User user = userRepository.findByUserName(loginRequest.getUserName());
+        User user = userRepository.findByUsername(loginRequest.getUserName());
         if (user == null || !passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid username or password");
         }
 
         LoginResponse response = new LoginResponse();
-        response.setCustomerId(user.getCustomerID()); // Updated to customerID
-        response.setUserName(user.getUserName());
-        response.setRoleName(user.getRoleID() != null ? user.getRoleID().getRoleName() : "USER");
+        response.setCustomerId(user.getCustomerId()); // Updated to customerID
+        response.setUserName(user.getUsername());
+        response.setRoleName(user.getRoleId() != null ? user.getRoleId().getRoleName() : "USER");
         return response;
     }
 
     public void register(RegisterRequest registerRequest) {
         // Check if username or email already exists
-        if (userRepository.findByUserName(registerRequest.getUserName()) != null) {
+        if (userRepository.findByUsername(registerRequest.getUserName()) != null) {
             throw new RuntimeException("Username already exists");
         }
         if (userRepository.findByEmail(registerRequest.getEmail()) != null) {
@@ -49,12 +49,12 @@ public class AuthService {
 
         // Create new user
         User user = new User();
-        user.setCustomerID(UUID.randomUUID().toString()); // Updated to customerID
+        user.setCustomerId(UUID.randomUUID().toString()); // Updated to customerID
         user.setFirstName(registerRequest.getFirstName());
         user.setLastName(registerRequest.getLastName());
         user.setEmail(registerRequest.getEmail());
         user.setPhoneNumber(registerRequest.getPhoneNumber());
-        user.setUserName(registerRequest.getUserName());
+        user.setUsername(registerRequest.getUserName());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 
         // Assign default role (e.g., "USER")
@@ -65,7 +65,7 @@ public class AuthService {
             role.setRoleName("USER");
             roleRepository.save(role);
         }
-        user.setRoleID(role); // Updated to roleID
+        user.setRoleId(role); // Updated to roleID
 
         userRepository.save(user);
     }

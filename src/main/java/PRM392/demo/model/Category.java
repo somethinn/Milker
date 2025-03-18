@@ -4,46 +4,27 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
-
 @Getter
 @Setter
 @Entity
-@Table(name = "\"Categories\"")
+@Table(name = "categories")
 public class Category {
     @Id
     @Size(max = 255)
-    @Column(name = "\"CategoriesID\"", nullable = false)
-    private String categoriesID;
+    @Column(name = "category_id", nullable = false)
+    private String categoryId;
 
     @Size(max = 255)
-    @Column(name = "\"BrandName\"")
-    private String brandName;
+    @NotNull
+    @Column(name = "category_name", nullable = false)
+    private String categoryName;
 
-    @Size(max = 255)
-    @Column(name = "\"AgeRange\"")
-    private String ageRange;
-
-    @Size(max = 255)
-    @Column(name = "\"SubCategories\"")
-    private String subCategories;
-
-    @Size(max = 255)
-    @Column(name = "\"packageType\"")
-    private String packageType;
-
-    @Size(max = 255)
-    @Column(name = "source")
-    private String source;
-
-    @Column(name = "\"CreateDate\"")
-    private Instant createDate;
-
-    @Column(name = "\"UpdateDate\"")
-    private Instant updateDate;
+    @Column(name = "description", length = Integer.MAX_VALUE)
+    private String description;
 
 }

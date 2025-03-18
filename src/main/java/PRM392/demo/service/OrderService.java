@@ -3,12 +3,16 @@ package PRM392.demo.service;
 import PRM392.demo.dto.OrderDetailDTO;
 import PRM392.demo.dto.OrderRequest;
 import PRM392.demo.dto.OrderResponse;
+import PRM392.demo.dto.OrderUpdateRequest;
 import PRM392.demo.model.*;
 import PRM392.demo.repo.OrderDetailRepository;
 import PRM392.demo.repo.OrderRepository;
 import PRM392.demo.repo.ProductRepository;
 import PRM392.demo.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,12 +44,11 @@ public class OrderService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Order order = new Order();
-        order.setOrderID(UUID.randomUUID().toString());
-        order.setMemberID(user);
+        order.setOrderId(UUID.randomUUID().toString());
+        order.setMember(user);
         order.setShippingAddress(orderRequest.getShippingAddress());
-        order.setOrderStatus(false);
-        order.setCreateDate(Instant.now());
-        order.setUpdateDate(Instant.now());
+        order.setStatus("CREATED");
+        order.setOrderDate(Instant.now());
 
         BigDecimal total = BigDecimal.ZERO;
         List<OrderDetail> orderDetails = new ArrayList<>();
@@ -63,15 +66,11 @@ public class OrderService {
             productRepository.save(product);
 
             OrderDetail detail = new OrderDetail();
-            OrderDetailId id = new OrderDetailId();
-            id.setProductID(product.getProductID());
-            id.setOrderID(order.getOrderID());
-            detail.setId(id);
-            detail.setProductID(product);
-            detail.setOrderID(order);
+            String id = UUID.randomUUID().toString();
+            detail.setOrderDetailId(id);
+            detail.setProduct(product);
+            detail.setOrder(order);
             detail.setQuantity(dto.getQuantity());
-            detail.setCreateDate(Instant.now());
-            detail.setUpdateDate(Instant.now());
 
             BigDecimal itemTotal = product.getPrice().multiply(BigDecimal.valueOf(dto.getQuantity()));
             total = total.add(itemTotal);
@@ -86,20 +85,60 @@ public class OrderService {
         return mapToOrderResponse(order, orderDetails);
     }
 
+    public OrderResponse getOrderById(String orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        List<OrderDetail> orderDetails = orderDetailRepository.findByOrderOrderId(orderId);
+        return mapToOrderResponse(order, orderDetails);
+    }
+
+    public Page<OrderResponse> getAllOrders(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Order> orders = orderRepository.findAll(pageable);
+        return orders.map(order -> {
+            List<OrderDetail> details = orderDetailRepository.findByOrderOrderId(order.getOrderId());
+            return mapToOrderResponse(order, details);
+        });
+    }
+    @Transactional
+    public OrderResponse updateOrder(String orderId, OrderUpdateRequest updateRequest) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        if (updateRequest.getShippingAddress() != null) {
+            order.setShippingAddress(updateRequest.getShippingAddress());
+        }
+        if (updateRequest.getStatus() != null) {
+            order.setStatus(updateRequest.getStatus());
+        }
+
+        Order updatedOrder = orderRepository.save(order);
+        List<OrderDetail> orderDetails = orderDetailRepository.findByOrderOrderId(orderId);
+        return mapToOrderResponse(updatedOrder, orderDetails);
+    }
+
+    @Transactional
+    public void deleteOrder(String orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        orderDetailRepository.deleteAll(orderDetailRepository.findByOrderOrderId(orderId));
+        orderRepository.delete(order);
+    }
+
     private OrderResponse mapToOrderResponse(Order order, List<OrderDetail> orderDetails) {
         OrderResponse response = new OrderResponse();
-        response.setOrderId(order.getOrderID()); // Updated to orderID
-        response.setCustomerId(order.getMemberID().getCustomerID()); // Updated to memberID and customerID
+        response.setOrderId(order.getOrderId()); // Updated to orderID
+        response.setCustomerId(order.getMember().getCustomerId()); // Updated to memberID and customerID
         response.setTotal(order.getTotal().doubleValue()); // Convert BigDecimal to double for DTO
         response.setShippingAddress(order.getShippingAddress());
-        response.setOrderStatus(order.getOrderStatus());
+        response.setOrderStatus(order.getStatus());
         response.setOrderDetails(orderDetails.stream().map(this::mapToOrderDetailDTO).collect(Collectors.toList()));
         return response;
     }
 
     private OrderDetailDTO mapToOrderDetailDTO(OrderDetail detail) {
         OrderDetailDTO dto = new OrderDetailDTO();
-        dto.setProductId(detail.getProductID().getProductID()); // Updated to productID
+        dto.setProductId(detail.getProduct().getProductID()); // Updated to productID
         dto.setQuantity(detail.getQuantity());
         return dto;
     }

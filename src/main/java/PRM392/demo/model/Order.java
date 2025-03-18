@@ -1,7 +1,6 @@
 package PRM392.demo.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,34 +14,30 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "\"Orders\"")
+@Table(name = "orders")
 public class Order {
     @Id
     @Size(max = 255)
-    @Column(name = "\"OrderID\"", nullable = false)
-    private String orderID;
+    @Column(name = "order_id", nullable = false)
+    private String orderId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "\"MemberID\"")
-    private User memberID;
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(name = "member_id")
+    private User member;
 
-    @NotNull
-    @Column(name = "\"Total\"", nullable = false, precision = 10, scale = 2)
+    @Column(name = "total", precision = 10, scale = 2)
     private BigDecimal total;
 
-    @Size(max = 255)
-    @Column(name = "\"ShippingAddress\"")
+    @Column(name = "shipping_address", length = Integer.MAX_VALUE)
     private String shippingAddress;
 
-    @ColumnDefault("false")
-    @Column(name = "\"OrderStatus\"")
-    private Boolean orderStatus;
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "order_date")
+    private Instant orderDate;
 
-    @Column(name = "\"CreateDate\"")
-    private Instant createDate;
-
-    @Column(name = "\"UpdateDate\"")
-    private Instant updateDate;
+    @Size(max = 50)
+    @Column(name = "status", length = 50)
+    private String status;
 
 }

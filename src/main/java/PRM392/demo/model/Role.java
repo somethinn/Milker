@@ -13,17 +13,16 @@ import org.hibernate.annotations.ColumnDefault;
 @Getter
 @Setter
 @Entity
-@Table(name = "\"Role\"")
+@Table(name = "role")
 public class Role {
     @Id
     @Size(max = 255)
-    @Column(name = "\"RoleID\"", nullable = false)
+    @Column(name = "role_id", nullable = false)
     private String roleID;
 
     @Size(max = 255)
     @NotNull
-    @ColumnDefault("'N/A'")
-    @Column(name = "\"RoleName\"", nullable = false)
+    @Column(name = "role_name", nullable = false)
     private String roleName;
 
 }

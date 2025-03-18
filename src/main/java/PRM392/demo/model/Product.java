@@ -14,15 +14,15 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "\"Product\"")
+@Table(name = "product")
 public class Product {
     @Id
     @Size(max = 255)
-    @Column(name = "\"ProductID\"", nullable = false)
+    @Column(name = "product_id", nullable = false)
     private String productID;
 
     @Size(max = 255)
-    @Column(name = "\"ProductName\"")
+    @Column(name = "product_name")
     private String productName;
 
     @ColumnDefault("0")
@@ -33,25 +33,25 @@ public class Product {
     private BigDecimal price;
 
     @Size(max = 255)
-    @Column(name = "\"Description\"")
+    @Column(name = "description")
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
-    @JoinColumn(name = "\"CategoriesID\"")
+    @JoinColumn(name = "category_id")
     private Category categoriesID;
 
     @Size(max = 255)
-    @Column(name = "\"statusDescription\"")
+    @Column(name = "status_description")
     private String statusDescription;
 
     @Column(name = "image", length = Integer.MAX_VALUE)
     private String image;
 
-    @Column(name = "\"CreateDate\"")
+    @Column(name = "create_date")
     private Instant createDate;
 
-    @Column(name = "\"UpdateDate\"")
+    @Column(name = "update_date")
     private Instant updateDate;
 
 }

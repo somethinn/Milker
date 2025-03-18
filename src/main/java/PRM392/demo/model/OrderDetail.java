@@ -1,45 +1,38 @@
 package PRM392.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.Instant;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "\"OrderDetail\"")
+@Table(name = "order_detail")
 public class OrderDetail {
-    @EmbeddedId
-    private OrderDetailId id;
+    @Id
+    @Size(max = 255)
+    @Column(name = "order_detail_id", nullable = false)
+    private String orderDetailId;
 
-    @MapsId("productID")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "\"ProductID\"", nullable = false)
-    private Product productID;
+    @JoinColumn(name = "order_id")
+    private Order order;
 
-    @MapsId("orderID")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "\"OrderID\"", nullable = false)
-    private Order orderID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    @ColumnDefault("1")
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "\"RegistrationDate\"")
-    private Instant registrationDate;
-
-    @Column(name = "\"CreateDate\"")
-    private Instant createDate;
-
-    @Column(name = "\"UpdateDate\"")
-    private Instant updateDate;
+    @Column(name = "price", precision = 10, scale = 2)
+    private BigDecimal price;
 
 }

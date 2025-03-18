@@ -10,6 +10,6 @@ public class OrderResponse {
     private String customerId;
     private double total;
     private String shippingAddress;
-    private boolean orderStatus;
+    private String orderStatus;
     private List<OrderDetailDTO> orderDetails;
 }
