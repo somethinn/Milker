@@ -30,7 +30,7 @@ open:
     version: "1.0"
     description: "API document of project Milker"
     server:
-      url: "http://localhost:8080"
+      url: "https://milker.onrender.com"
       description: "SpringBoot"
     group: "Milk"
     scan-package: "PRM392.demo.controller"
